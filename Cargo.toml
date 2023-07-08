@@ -1,0 +1,21 @@
+[package]
+name = "term-rain"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+rand = "0.8.5"
+termion = "2.0.1"
+
+[features]
+default = ["simd"]
+simd = []
+
+[profile.release]
+opt-level = 3
+lto = true
+debug = false
+strip = true
+
