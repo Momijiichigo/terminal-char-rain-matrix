@@ -20,14 +20,14 @@ fn main() -> io::Result<()> {
     loop {
         *screen_info.term_size = termion::terminal_size()?;
         if !done_appending {
-            char_rains.push(CharRain::new_random(&mut rng, screen_info.term_size.0));
+            char_rains.push(CharRain::new_random_x_range(&mut rng, 1..screen_info.term_size.0));
         }
         for rain in &mut char_rains {
             if let LineState::ReachedEnd = rain.draw(&mut stdout, &mut rng, &screen_info)? {
                 if !done_appending {
                     done_appending = true;
                 }
-                rain.redrop_random(&mut rng, screen_info.term_size.0);
+                rain.redrop_random_x_range(&mut rng, 1..screen_info.term_size.0);
             }
 
         }

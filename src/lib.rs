@@ -3,7 +3,7 @@
 use rand::{rngs::ThreadRng, Rng};
 use std::{
     cmp::min,
-    io::{self, Stdout, Write},
+    io::{self, Stdout, Write}, ops::Range,
 };
 #[cfg(feature = "simd")]
 use std::simd::i16x4;
@@ -75,11 +75,11 @@ impl CharRain {
     pub fn new(x: u16, y: u16) -> Self {
         CharRain { x, y }
     }
-    pub fn new_random(rng: &mut ThreadRng, term_width: u16) -> Self {
-        CharRain { x: rng.gen_range(1..term_width), y: 1 }
+    pub fn new_random_x_range(rng: &mut ThreadRng, range: Range<u16>) -> Self {
+        CharRain { x: rng.gen_range(range), y: 1 }
     }
-    pub fn redrop_random(&mut self, rng: &mut ThreadRng, term_width: u16) {
-        self.x = rng.gen_range(1..term_width);
+    pub fn redrop_random_x_range(&mut self, rng: &mut ThreadRng, range: Range<u16>) {
+        self.x = rng.gen_range(range);
         self.y = 1;
     }
     pub fn draw(
