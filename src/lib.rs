@@ -108,19 +108,27 @@ impl CharRain {
             write!(stdout, "{}", color::Fg(color::White))?;
             (shown_length, color_info.start)
         };
-        for _ in 1..shown_length {
+        for count in 1..=shown_length {
             let color = from_i16x4_to_rgb(current_color);
             write!(
                 stdout,
-                "{}{}{}{}",
+                "{}{}{}",
                 rng.gen_range::<u8, _>(33..126) as char,
                 color::Fg(color),
-                cursor::Up(1),
-                cursor::Left(1)
+                cursor::Left(1),
             )?;
+            if count != shown_length {
+                write!(
+                    stdout,
+                    "{}",
+                    cursor::Up(1),
+                )?; 
+            }
             current_color += color_info.color_step;
         }
-        write!(stdout, " ")?;
+        if y >= LENGTH_U16 {
+            write!(stdout, " ")?;
+        }
 
         self.y += 1;
         Ok(LineState::Falling)
